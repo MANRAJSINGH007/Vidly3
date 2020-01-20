@@ -13,7 +13,7 @@ namespace Vidly3.Controllers
         public ActionResult Random()
         {
             var movie = new Movie() { Name = "Shrek"};
-            return View(movie);
+            return RedirectToAction("Index", "Home", new { page = 1, sortBy = "Name"});
         }
     }
 }
