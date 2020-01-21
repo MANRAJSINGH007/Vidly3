@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly3.Models;
+using System.Data.Entity;
 
 namespace Vidly3.Controllers
 {
@@ -29,7 +30,8 @@ namespace Vidly3.Controllers
             // the query would not be executed now, it will be executed when we iterate over the customers object
             //var customers = _context.Customers;
             // but we can immediately execute this query if we call the ToList() method on customers.
-            var customers = _context.Customers.ToList();
+            //var customers = _context.Customers.ToList();
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
             return View(customers);
         }
 
