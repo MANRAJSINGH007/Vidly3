@@ -9,27 +9,44 @@ namespace Vidly3.Controllers
 {
     public class CustomersController : Controller
     {
+        // to access the database we need a DbContext which we will initialize in the constructor
+        private ApplicationDbContext _context;
+
+        public CustomersController()
+        {
+            // this is a disposable object so we need to dispose it also 
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = GetCustomers();
+            // the query would not be executed now, it will be executed when we iterate over the customers object
+            //var customers = _context.Customers;
+            // but we can immediately execute this query if we call the ToList() method on customers.
+            var customers = _context.Customers.ToList();
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null) return HttpNotFound();
             return View(customer);
         }
 
-        private IEnumerable<Customer> GetCustomers( )
-        {
-            return new List<Customer>
-            {
-                new Customer { Id = 1, Name = "John Smith" },
-                new Customer { Id = 2, Name = "Mary Williams" }
-            };
-        }
+        //private IEnumerable<Customer> GetCustomers( )
+        //{
+        //    return new List<Customer>
+        //    {
+        //        new Customer { Id = 1, Name = "John Smith" },
+        //        new Customer { Id = 2, Name = "Mary Williams" }
+        //    };
+        //}
     }
 }
