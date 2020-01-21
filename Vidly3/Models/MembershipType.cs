@@ -11,5 +11,6 @@ namespace Vidly3.Models
         public short SignUpFeee { get; set; }
         public byte DurationInMonths { get; set; }
         public byte DiscountRate { get; set; }
+        public string Name { get; set; }
     }
 }
