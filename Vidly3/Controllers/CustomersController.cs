@@ -36,9 +36,13 @@ namespace Vidly3.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(NewCustomerViewModel model)
+        public ActionResult Create(Customer customer)
         {
-            return View();
+            _context.Customers.Add(customer);
+            // Either all changes get persisted or none gets persisted, they are wrapped in a transaction
+            // They will be run at runtine
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
         }
 
         // GET: Customers
