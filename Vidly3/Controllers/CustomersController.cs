@@ -32,7 +32,7 @@ namespace Vidly3.Controllers
             {
                 MembershipTypes = membershipTypes
             };
-            return View(viewModel);
+            return View("CustomerForm", viewModel);
         }
 
         [HttpPost]
@@ -61,6 +61,19 @@ namespace Vidly3.Controllers
             var customer = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
             if (customer == null) return HttpNotFound();
             return View(customer);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            if (customer == null) return HttpNotFound();
+            var viewModel = new NewCustomerViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+            // Specify the viewname else the MVC will look for a view with the name Edit
+            return View("CustomerForm", viewModel);
         }
 
         //private IEnumerable<Customer> GetCustomers( )
