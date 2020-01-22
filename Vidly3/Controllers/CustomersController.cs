@@ -35,6 +35,12 @@ namespace Vidly3.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        public ActionResult Create(NewCustomerViewModel model)
+        {
+            return View();
+        }
+
         // GET: Customers
         public ActionResult Index()
         {
