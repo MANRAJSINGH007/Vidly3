@@ -36,9 +36,25 @@ namespace Vidly3.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Save(Customer customer)
         {
-            _context.Customers.Add(customer);
+            if (customer.Id == 0) _context.Customers.Add(customer);
+            else
+            {
+                var customerInDB = _context.Customers.Single(c => c.Id == customer.Id);
+                // how to update the customer object
+                // opens up security holes in app
+                // TryUpdateModel(customerInDB, "", new string[] {"Name", "Email"});
+
+                // Alternative Approach or you can use auto-mapper
+                // Another way is to use a DataTransfer Object Dto which will be a datastructure or a subset of the customer class
+                customerInDB.Name = customer.Name;
+                customerInDB.Birthdate = customer.Birthdate;
+                customerInDB.MembershipType = customer.MembershipType;
+                customerInDB.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+
+            }
+
             // Either all changes get persisted or none gets persisted, they are wrapped in a transaction
             // They will be run at runtine
             _context.SaveChanges();
